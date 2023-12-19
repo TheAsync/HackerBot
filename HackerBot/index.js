@@ -8,7 +8,8 @@ var mysql = require('mysql');
 var con = mysql.createConnection({
   host: "localhost",
   user: "yourusername",
-  password: "yourpassword"
+  password: "yourpassword",
+  database: "mydb"
 });
 
 con.connect(function(err) {
@@ -57,7 +58,7 @@ global.isRegistered = (userId) => {
 				return true;
 			}
 			return false;
-      
+
 		});
 	});
 };
