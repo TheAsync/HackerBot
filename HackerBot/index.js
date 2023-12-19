@@ -85,7 +85,7 @@ const rest = new REST().setToken(config.token);
 client.on(Events.InteractionCreate, async interaction => {
 
 	if (interaction.isChatInputCommand()) {
-		if (isRegistered(false) == false) {
+		if (isRegistered(true) == false) {
 			return interaction.reply({content:"use `/register` to use **HackerBot**...", ephemeral: true});
 		}
 
