@@ -52,12 +52,14 @@ for (const folder of commandFolders) {
 		const filePath = path.join(commandsPath, file);
 		const command = require(filePath);
 
-		if (!'data' in command) {
-			return console.log(`[WARNING] The command at ${filePath} is missing a required "data" property.`);
+		if (!('data' in command)) {
+			console.log(`[WARNING] The command at ${filePath} is missing a required "data" property.`);
+			break;
 		}
 
-		if (!'execute' in command) {
-			return console.log(`[WARNING] The command at ${filePath} is missing a required "execute" property.`);
+		if (!('execute' in command)) {
+			console.log(`[WARNING] The command at ${filePath} is missing a required "execute" property.`);
+			break;
 		}
 
 		commands.push(command.data.toJSON());
