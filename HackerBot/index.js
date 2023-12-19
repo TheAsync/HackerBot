@@ -29,8 +29,10 @@ const client = new Client({
 	intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildMessageReactions],
 });
 
+
 //cooldowns
 client.cooldowns = new Collection();
+
 
 //globals
 global.progressBar = (value, maxValue, size) => {
@@ -42,26 +44,34 @@ global.progressBar = (value, maxValue, size) => {
   const emptyProgressText = '—'.repeat(emptyProgress); // Repeat is creating a string with empty progress * caracters in it
   const percentageText = Math.round(percentage * 100) + '%'; // Displaying the percentage of the bar
 
-  const bar = '```[' + progressText + emptyProgressText + '] ' + percentageText + '```'; // Creating the bar
-  return bar;
+  return '```[' + progressText + emptyProgressText + '] ' + percentageText + '```'; // Creating the bar
+};
+global.isRegistered = (userId) => {
+	con.connect(function(err) {
+		if (err) throw err;
+
+		con.query("SELECT * FROM users WHERE id = ?", [userId], function (err, result) {
+			if (err) throw err;
+
+			if(result[1].id != null) {
+				return true;
+			} else {
+				return false;
+			}
+
+		});
+	});
 };
 
-global.isRegistered = (userId) => {
-	if(userId == true) {
-		return true;
-	} else {
-		return false;
-	}
-};
 
 //commands
 client.commands = new Collection();
 const commands = [];
 
+
 // Grab all the commands directories
 const foldersPath = path.join(__dirname, 'commands');
 const commandFolders = fs.readdirSync(foldersPath);
-
 for (const folder of commandFolders) {
 	// Grab all the command files from the commands directories
 	const commandsPath = path.join(foldersPath, folder);
@@ -72,12 +82,12 @@ for (const folder of commandFolders) {
 		const command = require(filePath);
 
 		if (!('data' in command)) {
-			console.log(`[WARNING] The command at ${filePath} is missing a required "data" property.`);
+			console.log(`[WARNING] The command ${command.data.name} is missing a required "data" property.`);
 			break;
 		}
 
 		if (!('execute' in command)) {
-			console.log(`[WARNING] The command at ${filePath} is missing a required "execute" property.`);
+			console.log(`[WARNING] The command ${command.data.name} is missing a required "execute" property.`);
 			break;
 		}
 
@@ -86,9 +96,9 @@ for (const folder of commandFolders) {
 	}
 }
 
+
 // Construct and prepare an instance of the REST module
 const rest = new REST().setToken(config.token);
-
 // and deploy commands!
 (async () => {
 	try {
@@ -107,11 +117,15 @@ const rest = new REST().setToken(config.token);
 	}
 })();
 
+
 //commands event INTERACTION
 client.on(Events.InteractionCreate, async interaction => {
 
+	const user = interaction.user;
+
 	if (interaction.isChatInputCommand()) {
-		if (isRegistered(true) == false) {
+
+		if (isRegistered(user.id) == false) {
 			return interaction.reply({content:"use `/register` to use **HackerBot**...", ephemeral: true});
 		}
 
@@ -130,8 +144,6 @@ client.on(Events.InteractionCreate, async interaction => {
 
 		const defaultCooldownDuration = 3;
 		const cooldownAmount = (command.cooldown ?? defaultCooldownDuration) * 1000;
-
-
 
 		if (timestamps.has(interaction.user.id)) {
 			const expirationTime = timestamps.get(interaction.user.id) + cooldownAmount;
@@ -154,12 +166,14 @@ client.on(Events.InteractionCreate, async interaction => {
 	}
 });
 
+
 // When the client is ready, run this code (only once)
 // We use 'c' for the event parameter to keep it separate from the already defined 'client'
 client.once(Events.ClientReady, c => {
 	client.user.setActivity('Gathering your data...');
 	console.log(`\n[HACKERBOT] READY! Logged in as ${c.user.tag}\n`);
 });
+
 
 // Log in to Discord with your client's token
 client.login(config.token);
