@@ -5,5 +5,5 @@
 > nothing yet
 
 
-# Programmers World Discord
+# The Async Discord
 [Join](https://discord.gg/29Zsaymbum)
