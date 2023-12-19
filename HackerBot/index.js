@@ -23,7 +23,7 @@ global.progressBar = (value, maxValue, size) => {
   const emptyProgressText = '—'.repeat(emptyProgress); // Repeat is creating a string with empty progress * caracters in it
   const percentageText = Math.round(percentage * 100) + '%'; // Displaying the percentage of the bar
 
-  const bar = '```[' + progressText + emptyProgressText + ']' + percentageText + '```'; // Creating the bar
+  const bar = '```[' + progressText + emptyProgressText + '] ' + percentageText + '```'; // Creating the bar
   return bar;
 };
 
@@ -39,12 +39,12 @@ global.isRegistered = (userId) => {
 client.commands = new Collection();
 const commands = [];
 
-// Grab all the command files from the commands directory you created earlier
+// Grab all the commands directories
 const foldersPath = path.join(__dirname, 'commands');
 const commandFolders = fs.readdirSync(foldersPath);
 
 for (const folder of commandFolders) {
-	// Grab all the command files from the commands directory you created earlier
+	// Grab all the command files from the commands directories
 	const commandsPath = path.join(foldersPath, folder);
 	const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
 	// Grab the SlashCommandBuilder#toJSON() output of each command's data for deployment
@@ -55,7 +55,7 @@ for (const folder of commandFolders) {
 		if (!'data' in command) {
 			return console.log(`[WARNING] The command at ${filePath} is missing a required "data" property.`);
 		}
-		
+
 		if (!'execute' in command) {
 			return console.log(`[WARNING] The command at ${filePath} is missing a required "execute" property.`);
 		}
@@ -68,7 +68,7 @@ for (const folder of commandFolders) {
 // Construct and prepare an instance of the REST module
 const rest = new REST().setToken(config.token);
 
-// and deploy your commands!
+// and deploy commands!
 (async () => {
 	try {
 		console.log(`Started refreshing ${commands.length} application (/) commands.`);
