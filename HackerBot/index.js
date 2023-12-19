@@ -1,11 +1,28 @@
 //start
 console.log("[HACKERBOT] starting...\n");
 
+
+//connect to db
+var mysql = require('mysql');
+
+var con = mysql.createConnection({
+  host: "localhost",
+  user: "yourusername",
+  password: "yourpassword"
+});
+
+con.connect(function(err) {
+	if (err) throw err;
+	console.log("Connected!");
+});
+
+
 // Require the necessary discord.js classes
 const fs = require('node:fs');
 const path = require('node:path');
 const { REST, Routes, Client, Collection, Events, GatewayIntentBits } = require('discord.js');
 const config = require('./config.json');
+
 
 //client
 const client = new Client({
