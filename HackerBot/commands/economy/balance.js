@@ -10,11 +10,14 @@ module.exports = {
 
     await interaction.deferReply({ ephemeral: true });
     interaction.editReply({
-        content: "", embeds: [new EmbedBuilder()
+        content: "",
+        embeds: [
+          new EmbedBuilder()
             .setTimestamp()
             .setColor('Green')
             .setDescription('You have **' + ' coins**')
-            .setTitle('Your Balance')]
+            .setTitle('Your Balance')
+        ]
     });
 	},
 };
