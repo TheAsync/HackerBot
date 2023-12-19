@@ -1,7 +1,7 @@
 # HackerBot
 
 
-# TODO
+# ToDo
 > nothing yet
 
 
