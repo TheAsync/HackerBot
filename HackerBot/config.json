@@ -1,4 +1,10 @@
 {
   "token": "???",
-  "clientId": "???"
+  "clientId": "???",
+  "db": [
+    "host": "localhost",
+    "user": "yourusername",
+    "password": "yourpassword",
+    "database": "mydb"
+  ]
 }
