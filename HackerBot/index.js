@@ -55,9 +55,18 @@ global.isRegistered = (userId) => {
 
 			if(result[1].id != null) {
 				return true;
-			} else {
-				return false;
 			}
+			return false;
+      
+		});
+	});
+};
+global.registerUser = (userId) => {
+	con.connect(function(err) {
+		if (err) throw err;
+
+		con.query("INSERT INTO users (id, dateRegistered, coins, items) VALUES ?", [userId, new Date(), 0, null], function (err, result) {
+			if (err) throw err;
 
 		});
 	});
