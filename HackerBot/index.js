@@ -28,6 +28,8 @@ const config = require('./config.json');
 const client = new Client({
 	intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildMessageReactions],
 });
+
+//cooldowns
 client.cooldowns = new Collection();
 
 //globals
