@@ -46,26 +46,21 @@ global.progressBar = (value, maxValue, size) => {
   return '```[' + progressText + emptyProgressText + '] ' + percentageText + '```'; // Creating the bar
 };
 global.isRegistered = (userId) => {
-	con.connect(function(err) {
+	con.query("SELECT * FROM users WHERE id = ?", [userId], function (err, result) {
 		if (err) throw err;
 
-		con.query("SELECT * FROM users WHERE id = ?", [userId], function (err, result) {
-			if (err) throw err;
+		if(result[1].id != null) {
+			return true;
+		}
+		return false;
 
-			if(result[1].id != null) {
-				return true;
-			}
-			return false;
-
-		});
 	});
 };
 global.registerUser = (userId) => {
-	con.connect(function(err) {
-		if (err) throw err;
-
-		con.query("INSERT INTO users (id, dateRegistered, coins, items) VALUES ?", [userId, new Date(), 0, null]);
-	});
+	con.query("INSERT INTO users (id, dateRegistered, coins, items) VALUES ?", [userId, new Date(), 0, null]);
+};
+global.getConection = () => {
+	return con;
 };
 
 
