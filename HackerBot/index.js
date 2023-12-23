@@ -2,7 +2,7 @@
 console.log("[HACKERBOT] starting...\n");
 
 
-//connect to db
+//connect to db (mysql)
 var mysql = require('mysql');
 
 var con = mysql.createConnection({
@@ -43,7 +43,7 @@ global.progressBar = (value, maxValue, size) => {
   const emptyProgressText = '—'.repeat(size - progress); // Repeat is creating a string with empty progress * caracters in it
   const percentageText = Math.round(percentage * 100) + '%'; // Displaying the percentage of the bar
 
-  return '```[' + progressText + emptyProgressText + '] ' + percentageText + '```'; // Creating the bar
+  return '```[' + progressText + emptyProgressText + '] ' + percentageText + '```'; // Returning the bar
 };
 global.isRegistered = (userId) => {
 	con.query("SELECT * FROM users WHERE id = ?", [userId], function (err, result) {
